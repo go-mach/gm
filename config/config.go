@@ -1,5 +1,13 @@
 package config
 
+import (
+	"fmt"
+	"os"
+	"sync"
+
+	"github.com/spf13/viper"
+)
+
 type (
 	service struct {
 		Group   string
@@ -93,3 +101,39 @@ type (
 		Ldap       Ldap
 	}
 )
+
+var instance *Configuration
+var once sync.Once
+
+// GetConfifuration returns the Configuration structure singleton instance
+func GetConfifuration() *Configuration {
+	once.Do(func() {
+		loadConfiguration()
+	})
+
+	return instance
+}
+
+func loadConfiguration() {
+	viper.SetDefault("logPath", "./log")
+
+	viper.AddConfigPath(".")
+	viper.AddConfigPath("./config")
+
+	if os.Getenv("ENV") != "" {
+		viper.SetConfigName("config-" + os.Getenv("ENV"))
+	} else {
+		viper.SetConfigName("config")
+	}
+
+	viper.SetConfigType("yaml")
+
+	if err := viper.ReadInConfig(); err != nil {
+		panic(fmt.Errorf("fatal error config file: %s", err))
+	}
+
+	if err := viper.Unmarshal(instance); err != nil {
+		panic(fmt.Errorf("fatal error decoding configuration into struct: %v", err))
+	}
+
+}
