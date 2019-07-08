@@ -139,5 +139,9 @@ func loadConfiguration() {
 }
 
 func Get(key string) interface{} {
+	// just in case!
+	if instance == nil {
+		loadConfiguration()
+	}
 	return viper.Get(key)
 }
