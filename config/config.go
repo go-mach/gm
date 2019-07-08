@@ -140,8 +140,9 @@ func loadConfiguration() {
 
 func Get(key string) interface{} {
 	// just in case!
-	if instance == nil {
-		loadConfiguration()
+	conf := GetConfiguration()
+	if conf == nil {
+		panic("No configuration at all!")
 	}
 	return viper.Get(key)
 }
