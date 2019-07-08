@@ -1,9 +1,5 @@
 package gm
 
-// type GearConfig struct {
-// 	Name string
-// }
-
 // Configurable is the interface to mark a gear as configurable
 type Configurable interface {
 	Configure(config interface{})
@@ -14,4 +10,11 @@ type Configurable interface {
 type Gear interface {
 	Name() string
 	Start(machinery *Machinery)
+}
+
+// BaseGear is the MAchinery main building block structure.
+// If a component want to be loaded into the app should derive from this,
+// or define Config map to store configuration
+type BaseGear struct {
+	config map[string]interface{}
 }
