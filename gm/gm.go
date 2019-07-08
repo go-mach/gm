@@ -1,6 +1,9 @@
 package gm
 
-import "log"
+import (
+	"github.com/go-mach/gm/config"
+	"log"
+)
 
 // Machinery is the main framework structure.
 type Machinery struct {
@@ -35,7 +38,7 @@ func (m *Machinery) configureGears() {
 		// check if the gear is Configurable
 		if configurableGear, ok := gear.(Configurable); ok {
 			log.Printf("the %s gear is configurable", gear.Name())
-			configurableGear.Configure(nil)
+			configurableGear.Configure(config.Get(gear.Name()))
 		}
 	}
 }
