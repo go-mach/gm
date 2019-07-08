@@ -106,7 +106,7 @@ var instance *Configuration
 var once sync.Once
 
 // GetConfifuration returns the Configuration structure singleton instance
-func GetConfifuration() *Configuration {
+func GetConfiguration() *Configuration {
 	once.Do(func() {
 		loadConfiguration()
 	})
