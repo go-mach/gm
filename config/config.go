@@ -105,7 +105,7 @@ type (
 var instance *Configuration
 var once sync.Once
 
-// GetConfifuration returns the Configuration structure singleton instance
+// GetConfiguration returns the Configuration structure singleton instance
 func GetConfiguration() *Configuration {
 	once.Do(func() {
 		loadConfiguration()
@@ -132,7 +132,7 @@ func loadConfiguration() {
 		panic(fmt.Errorf("fatal error config file: %s", err))
 	}
 
-	if err := viper.Unmarshal(instance); err != nil {
+	if err := viper.Unmarshal(&instance); err != nil {
 		panic(fmt.Errorf("fatal error decoding configuration into struct: %v", err))
 	}
 
