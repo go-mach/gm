@@ -135,4 +135,9 @@ func loadConfiguration() {
 	if err := viper.Unmarshal(&instance); err != nil {
 		panic(fmt.Errorf("fatal error decoding configuration into struct: %v", err))
 	}
+
+}
+
+func Get(key string) interface{} {
+	return viper.Get(key)
 }
