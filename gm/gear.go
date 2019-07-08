@@ -2,7 +2,7 @@ package gm
 
 // Configurable is the interface to mark a gear as configurable
 type Configurable interface {
-	Configure(configuration interface{})
+	Configure(config interface{})
 }
 
 // Gear is the Machinery main building block interface.
@@ -16,5 +16,5 @@ type Gear interface {
 // If a component want to be loaded into the app should derive from this,
 // or define Config map to store configuration
 type BaseGear struct {
-	config map[string]interface{}
+	Config map[string]interface{}
 }
