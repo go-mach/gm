@@ -10,6 +10,7 @@ type Configurable interface {
 type Gear interface {
 	Name() string
 	Start(machinery *Machinery)
+	Provide() interface{}
 }
 
 // BaseGear is the MAchinery main building block structure.
