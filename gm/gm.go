@@ -55,3 +55,18 @@ func (m *Machinery) startGears() {
 		go gear.Start(m)
 	}
 }
+
+// GetGear returns a Gear instance pointer
+// TODO: use a map to store Gears
+func (m *Machinery) GetGear(name string) *Gear {
+	var g *Gear = nil
+
+	for _, gear := range m.gears {
+		if gear.Name() == name {
+			g = &gear
+			break
+		}
+	}
+
+	return g
+}
