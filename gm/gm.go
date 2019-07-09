@@ -14,26 +14,23 @@ type Machinery struct {
 	gears map[string]Gear
 }
 
-// New initialize and return the main Machinery instance.
-func New() *Machinery {
+// NewMachinery initialize and return the main Machinery engine instance.
+func NewMachinery() *Machinery {
 	return &Machinery{gears: make(map[string]Gear)}
 }
 
-// RegisterGear and configure a Gear with the Machinery.
-func (m *Machinery) RegisterGear(gear Gear) *Machinery {
-	if m.gears[gear.Name()] != nil {
-		log.Fatalf("Gear %s already registered", gear.Name())
-	} else {
-		m.gears[gear.Name()] = gear
-	}
+// With and configure one or more Gears with the Machinery engine.
+func (m *Machinery) With(gears ...Gear) *Machinery {
+	var gearName string
 
-	return m
-}
-
-// Register and configure multiple Gears with the Machinery.
-func (m *Machinery) Register(gears ...Gear) *Machinery {
 	for _, gear := range gears {
-		m.RegisterGear(gear)
+		gearName = gear.Name()
+		if m.gears[gearName] != nil {
+			log.Fatalf("Gear %s already registered", gearName)
+		} else {
+			log.Printf("registering %s Gear", gearName)
+			m.gears[gearName] = gear
+		}
 	}
 
 	return m
