@@ -16,7 +16,7 @@ type Machinery struct {
 
 // New initialize and return the main Machinery instance.
 func New() *Machinery {
-	return &Machinery{}
+	return &Machinery{gears: make(map[string]Gear)}
 }
 
 // RegisterGear and configure a Gear with the Machinery.
