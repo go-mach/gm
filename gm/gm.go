@@ -10,7 +10,8 @@ import (
 
 // Machinery is the main framework structure.
 type Machinery struct {
-	gears []Gear
+	// gears []Gear
+	gears map[string]Gear
 }
 
 // New initialize and return the main Machinery instance.
@@ -18,9 +19,24 @@ func New() *Machinery {
 	return &Machinery{}
 }
 
-// Register and configure a Gear with the Machinery.
-func (m *Machinery) Register(gear Gear) {
-	m.gears = append(m.gears, gear)
+// RegisterGear and configure a Gear with the Machinery.
+func (m *Machinery) RegisterGear(gear Gear) *Machinery {
+	if m.gears[gear.Name()] != nil {
+		log.Fatalf("Gear %s already registered", gear.Name())
+	} else {
+		m.gears[gear.Name()] = gear
+	}
+
+	return m
+}
+
+// Register and configure multiple Gears with the Machinery.
+func (m *Machinery) Register(gears ...Gear) *Machinery {
+	for _, gear := range gears {
+		m.RegisterGear(gear)
+	}
+
+	return m
 }
 
 // Start configure app gears and starts the machinery
@@ -37,22 +53,22 @@ func (m *Machinery) Start() {
 
 // configure configurable gears
 func (m *Machinery) configureGears() {
-	for _, gear := range m.gears {
+	for gearName, gear := range m.gears {
 		// check if the gear is Configurable
 		if configurableGear, ok := gear.(Configurable); ok {
-			log.Printf("the %s gear is configurable", gear.Name())
-			gearConfig := config.Get(strings.ToLower(gear.Name()))
+			log.Printf("the %s gear is configurable", gearName)
+			gearConfig := config.Get(strings.ToLower(gearName))
 			if gearConfig == nil {
-				panic(fmt.Sprintf("no configuration found for gear %s", gear.Name()))
+				panic(fmt.Sprintf("no configuration found for gear %s", gearName))
 			}
-			configurableGear.Configure(config.Get(gear.Name()))
+			configurableGear.Configure(config.Get(gearName))
 		}
 	}
 }
 
 func (m *Machinery) startGears() {
-	for _, gear := range m.gears {
-		log.Printf("starting the %s gear", gear.Name())
+	for gearName, gear := range m.gears {
+		log.Printf("starting the %s gear", gearName)
 		go gear.Start(m)
 	}
 }
@@ -60,14 +76,5 @@ func (m *Machinery) startGears() {
 // GetGear returns a Gear instance pointer
 // TODO: use a map to store Gears
 func (m *Machinery) GetGear(name string) Gear {
-	var g Gear
-
-	for _, gear := range m.gears {
-		if gear.Name() == name {
-			g = gear
-			break
-		}
-	}
-
-	return g
+	return m.gears[name]
 }

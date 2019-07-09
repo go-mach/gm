@@ -105,7 +105,7 @@ type (
 var instance *Configuration
 var once sync.Once
 
-// GetConfiguration returns the Configuration structure singleton instance
+// GetConfiguration returns the Configuration structure singleton instance.
 func GetConfiguration() *Configuration {
 	once.Do(func() {
 		loadConfiguration()
@@ -138,6 +138,7 @@ func loadConfiguration() {
 
 }
 
+// Get returns a configuration map by key. Used for custom or gear configurations.
 func Get(key string) interface{} {
 	// just in case!
 	conf := GetConfiguration()
