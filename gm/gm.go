@@ -2,9 +2,10 @@ package gm
 
 import (
 	"fmt"
-	"github.com/go-mach/gm/config"
 	"log"
 	"strings"
+
+	"github.com/go-mach/gm/config"
 )
 
 // Machinery is the main framework structure.
@@ -58,12 +59,12 @@ func (m *Machinery) startGears() {
 
 // GetGear returns a Gear instance pointer
 // TODO: use a map to store Gears
-func (m *Machinery) GetGear(name string) *Gear {
-	var g *Gear = nil
+func (m *Machinery) GetGear(name string) Gear {
+	var g Gear
 
 	for _, gear := range m.gears {
 		if gear.Name() == name {
-			g = &gear
+			g = gear
 			break
 		}
 	}
