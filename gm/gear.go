@@ -13,11 +13,10 @@ type Gear interface {
 	Provide() interface{}
 }
 
-// BaseGear is the MAchinery main building block structure.
-// If a component want to be loaded into the app should derive from this,
-// or define Config map to store configuration
+// BaseGear is the Machinery most basic building block structure.
+// If a component want to be loaded into the app should derive from this.
+// However, a gear will not be configured if it does not implement
+// the Configurable interface.
 type BaseGear struct {
 	Config map[string]interface{}
 }
-
-

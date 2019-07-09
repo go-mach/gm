@@ -26,7 +26,7 @@ func (m *Machinery) With(gears ...Gear) *Machinery {
 	for _, gear := range gears {
 		gearName = gear.Name()
 		if m.gears[gearName] != nil {
-			log.Fatalf("Gear %s already registered", gearName)
+			log.Printf("Gear %s already registered", gearName)
 		} else {
 			log.Printf("registering %s Gear", gearName)
 			m.gears[gearName] = gear
