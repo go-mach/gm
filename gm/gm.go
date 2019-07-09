@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"strings"
-	"sync"
 
 	"github.com/go-mach/gm/config"
 )
@@ -13,7 +12,7 @@ import (
 type Machinery struct {
 	// gears []Gear
 	gears map[string]Gear
-	WG    sync.WaitGroup
+	//WG    sync.WaitGroup
 }
 
 // NewMachinery initialize and return the main Machinery engine instance.
@@ -68,9 +67,9 @@ func (m *Machinery) configureGears() {
 func (m *Machinery) startGears() {
 	for gearName, gear := range m.gears {
 		log.Printf("starting the %s gear", gearName)
-		m.WG.Add(1)
+		// m.WG.Add(1)
 		gear.Start(m)
-		m.WG.Wait()
+		// m.WG.Wait()
 	}
 }
 
