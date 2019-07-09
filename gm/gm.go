@@ -13,6 +13,7 @@ type Machinery struct {
 	// gears []Gear
 	gears map[string]Gear
 	//WG    sync.WaitGroup
+	Test string
 }
 
 // NewMachinery initialize and return the main Machinery engine instance.
@@ -39,6 +40,7 @@ func (m *Machinery) With(gears ...Gear) *Machinery {
 
 // Start configure app gears and starts the machinery
 func (m *Machinery) Start() {
+	m.Test = "Test"
 	log.Println("configuring machinery gears")
 	m.configureGears()
 
