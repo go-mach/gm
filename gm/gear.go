@@ -28,13 +28,13 @@ type ConfigurableGear struct {
 }
 
 // NewBaseGear returns a new instance of BaseGear.
-// To be used in NewXXXXXX() for the XXXXXXX actual gear
+// Commodity constructor func to be used in actual gear construction
 func NewBaseGear(uname string) BaseGear {
 	return BaseGear{UniqueName: uname}
 }
 
 // NewConfigurableGear returns a new instance of ConfigurableGear.
-// To be used in NewXXXXXX() for the XXXXXXX actual gear
+// Commodity constructor func to be used actual gear construction
 func NewConfigurableGear(uname string, config map[string]interface{}) ConfigurableGear {
 	return ConfigurableGear{BaseGear: NewBaseGear(uname), Config: config}
 }
