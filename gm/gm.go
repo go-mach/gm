@@ -69,7 +69,6 @@ func (m *Machinery) startGears() {
 	for gearName, gear := range m.gears {
 		log.Printf("starting the %s gear", gearName)
 		m.WG.Add(1)
-		// go gear.Start(m)
 		gear.Start(m)
 		m.WG.Wait()
 	}
