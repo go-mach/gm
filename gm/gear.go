@@ -16,7 +16,7 @@ type Gear interface {
 // BaseGear is the Machinery most basic building block structure.
 // If a component want to be loaded into the app should derive from this.
 type BaseGear struct {
-	uname string
+	UniqueName string
 }
 
 // ConfigurableGear is a BasicGear with a config map structure.
