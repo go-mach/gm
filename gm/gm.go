@@ -33,7 +33,8 @@ func NewMachinery() *Machinery {
 		log.Printf("caught sig: %+v", sig)
 		log.Println("Wait for 2 second to finish processing")
 		time.Sleep(2 * time.Second)
-		os.Exit(0)
+		// os.Exit(0)
+		theGoMachinery.Shutdown()
 	}()
 
 	return theGoMachinery
@@ -66,6 +67,15 @@ func (m *Machinery) Start() {
 
 	log.Println("app Machinery started")
 	select {}
+}
+
+// Shutdown all of the registered gears.
+func (m *Machinery) Shutdown() {
+	log.Println("Shutting down the Machinery")
+	for gearName, gear := range m.gears {
+		log.Printf("shutting down the %s gear", gearName)
+		gear.Shutdown()
+	}
 }
 
 // configure configurable gears
