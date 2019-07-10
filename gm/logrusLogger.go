@@ -14,33 +14,40 @@ var logger *logrus.Logger
 var logConfig = config.GetConfiguration()
 
 // NewLogger returns the logger instance. Initialize the instance only once.
-func NewLogger() *logrus.Logger {
+func NewLogger() Logger {
 	if logger == nil {
 		logger = logrus.New()
 
-		// file log with rotation
-		rfh, err := rotatefilehook.NewRotateFileHook(rotatefilehook.RotateFileConfig{
-			Filename:   path.Join(logConfig.Log.Path, logConfig.Log.Filename),
-			MaxSize:    logConfig.Log.MaxSize,
-			MaxBackups: logConfig.Log.MaxBackups,
-			MaxAge:     logConfig.Log.MaxAge,
-			Level:      parseLevel(),
-			Formatter:  logFormatter(),
-		})
+		if logConfig != nil {
+			// file log with rotation
+			rfh, err := rotatefilehook.NewRotateFileHook(rotatefilehook.RotateFileConfig{
+				Filename:   path.Join(logConfig.Log.Path, logConfig.Log.Filename),
+				MaxSize:    logConfig.Log.MaxSize,
+				MaxBackups: logConfig.Log.MaxBackups,
+				MaxAge:     logConfig.Log.MaxAge,
+				Level:      parseLevel(),
+				Formatter:  logFormatter(),
+			})
 
-		if err != nil {
-			panic(err)
+			if err != nil {
+				panic(err)
+			}
+
+			logger.AddHook(rfh)
+
+			// console log
+			if logConfig.Log.Console.Enabled {
+				logger.SetLevel(parseLevel())
+				logger.SetOutput(colorable.NewColorableStdout())
+				logger.SetFormatter(consoleFormatter())
+			}
+		} else {
+			// default logger
+			Formatter := new(logrus.TextFormatter)
+			Formatter.TimestampFormat = "02-01-2006 15:04:05"
+			Formatter.FullTimestamp = true
+			logrus.SetFormatter(Formatter)
 		}
-
-		logger.AddHook(rfh)
-
-		// console log
-		if logConfig.Log.Console.Enabled {
-			logger.SetLevel(parseLevel())
-			logger.SetOutput(colorable.NewColorableStdout())
-			logger.SetFormatter(consoleFormatter())
-		}
-
 	}
 
 	logger.Debug("Config and Logger initialized")
