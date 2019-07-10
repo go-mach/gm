@@ -3,19 +3,40 @@ package gm
 import (
 	"fmt"
 	"log"
+	"os"
+	"os/signal"
 	"strings"
+	"syscall"
+	"time"
 
 	"github.com/go-mach/gm/config"
 )
 
 // Machinery is the main framework structure.
 type Machinery struct {
-	gears map[string]Gear
+	gears        map[string]Gear
+	GracefulStop chan os.Signal
 }
 
 // NewMachinery initialize and return the main Machinery engine instance.
 func NewMachinery() *Machinery {
-	return &Machinery{gears: make(map[string]Gear)}
+	theGoMachinery := &Machinery{
+		gears:        make(map[string]Gear),
+		GracefulStop: make(chan os.Signal),
+	}
+
+	signal.Notify(theGoMachinery.GracefulStop, syscall.SIGTERM)
+	signal.Notify(theGoMachinery.GracefulStop, syscall.SIGINT)
+
+	go func() {
+		sig := <-theGoMachinery.GracefulStop
+		log.Printf("caught sig: %+v", sig)
+		log.Println("Wait for 2 second to finish processing")
+		time.Sleep(2 * time.Second)
+		os.Exit(0)
+	}()
+
+	return theGoMachinery
 }
 
 // With and configure one or more Gears with the Machinery engine.
