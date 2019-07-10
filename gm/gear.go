@@ -27,6 +27,22 @@ type ConfigurableGear struct {
 	Config map[string]interface{}
 }
 
+// Name is the default implementation for the Gear interface Name() func.
+func (bg *BaseGear) Name() string {
+	return bg.UniqueName
+}
+
+// Start is the default implementation for the Gear interface Start() func.
+func (bg *BaseGear) Start(machinery *Machinery) {
+	// do nothing
+}
+
+// Provide is the default implementation for the Gear interface Provide() func.
+// NOTE that it returns a nil interface{}.
+func (bg *BaseGear) Provide() interface{} {
+	return nil
+}
+
 // NewBaseGear returns a new instance of BaseGear.
 // Commodity constructor func to be used in actual gear construction
 func NewBaseGear(uname string) BaseGear {
