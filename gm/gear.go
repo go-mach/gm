@@ -11,6 +11,7 @@ type Gear interface {
 	Name() string
 	Start(machinery *Machinery)
 	Provide() interface{}
+	Shutdown()
 }
 
 // BaseGear is the Machinery most basic building block structure.
@@ -27,20 +28,26 @@ type ConfigurableGear struct {
 	Config map[string]interface{}
 }
 
-// Name is the default implementation for the Gear interface Name() func.
+// Name is the default do nothing implementation for the Gear interface Name() func.
 func (bg *BaseGear) Name() string {
 	return bg.UniqueName
 }
 
-// Start is the default implementation for the Gear interface Start() func.
+// Start is the default do nothing implementation for the Gear interface Start() func.
 func (bg *BaseGear) Start(machinery *Machinery) {
 	// do nothing
 }
 
-// Provide is the default implementation for the Gear interface Provide() func.
+// Provide is the default do nothing implementation for the Gear interface Provide() func.
 // NOTE that it returns a nil interface{}.
 func (bg *BaseGear) Provide() interface{} {
+	// do nothing
 	return nil
+}
+
+// Shutdown is the default do nothing implementation for the Gear interface Shutdown() func.
+func (bg *BaseGear) Shutdown() {
+	// do nothing
 }
 
 // NewBaseGear returns a new instance of BaseGear.
