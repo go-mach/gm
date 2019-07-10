@@ -38,6 +38,7 @@ func NewMachinery() *Machinery {
 		theGoMachinery.Shutdown()
 		log.Println("All gears went down. Shutting down the Machinery.")
 		log.Println("Bye!")
+		os.Exit(0)
 	}()
 
 	return theGoMachinery
