@@ -10,10 +10,7 @@ import (
 
 // Machinery is the main framework structure.
 type Machinery struct {
-	// gears []Gear
 	gears map[string]Gear
-	//WG    sync.WaitGroup
-	Test string
 }
 
 // NewMachinery initialize and return the main Machinery engine instance.
@@ -40,7 +37,6 @@ func (m *Machinery) With(gears ...Gear) *Machinery {
 
 // Start configure app gears and starts the machinery
 func (m *Machinery) Start() {
-	m.Test = "Test"
 	log.Println("configuring machinery gears")
 	m.configureGears()
 
@@ -69,9 +65,7 @@ func (m *Machinery) configureGears() {
 func (m *Machinery) startGears() {
 	for gearName, gear := range m.gears {
 		log.Printf("starting the %s gear", gearName)
-		// m.WG.Add(1)
 		gear.Start(m)
-		// m.WG.Wait()
 	}
 }
 
