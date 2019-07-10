@@ -147,3 +147,14 @@ func Get(key string) interface{} {
 	}
 	return viper.Get(key)
 }
+
+// IsSet checks to see if the key has been set in any of the data locations.
+// IsSet is case-insensitive for a key.
+func IsSet(key string) bool {
+	// just in case!
+	conf := GetConfiguration()
+	if conf == nil {
+		panic("No configuration at all!")
+	}
+	return viper.IsSet(key)
+}

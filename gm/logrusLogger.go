@@ -18,7 +18,7 @@ func NewLogger() Logger {
 	if logger == nil {
 		logger = logrus.New()
 
-		if logConfig.Log != nil {
+		if config.IsSet("log") {
 			// file log with rotation
 			rfh, err := rotatefilehook.NewRotateFileHook(rotatefilehook.RotateFileConfig{
 				Filename:   path.Join(logConfig.Log.Path, logConfig.Log.Filename),
