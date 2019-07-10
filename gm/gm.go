@@ -31,10 +31,13 @@ func NewMachinery() *Machinery {
 	go func() {
 		sig := <-theGoMachinery.GracefulStop
 		log.Printf("caught sig: %+v", sig)
+
 		log.Println("Wait for 2 second to finish processing")
 		time.Sleep(2 * time.Second)
-		// os.Exit(0)
+
 		theGoMachinery.Shutdown()
+		log.Println("All gears went down. Shutting down the Machinery.")
+		log.Println("Bye!")
 	}()
 
 	return theGoMachinery
